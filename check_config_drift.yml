@@ -1,0 +1,26 @@
+---
+- name: Cisco IOS - Fail if running config drifts from golden config
+  hosts: cisco_ios
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+
+  vars:
+    golden_dir: "goldens"
+
+  tasks:
+    - name: Load golden config for this device
+      ansible.builtin.set_fact:
+        golden_config: "{{ lookup('ansible.builtin.file', golden_dir ~ '/' ~ inventory_hostname ~ '.cfg') }}"
+
+    - name: Diff running config against golden config (do not apply)
+      cisco.ios.ios_config:
+        diff_against: intended
+        intended_config: "{{ golden_config }}"
+        match: line
+        replace: line
+      register: drift_check
+
+    - name: Fail the run if drift is detected
+      ansible.builtin.fail:
+        msg: "CONFIG DRIFT DETECTED on {{ inventory_hostname }}. See diff output above."
+      when: drift_check.changed
