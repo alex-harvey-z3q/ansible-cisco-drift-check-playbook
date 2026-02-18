@@ -54,7 +54,7 @@ On macOS, ansible-pylibssh requires Homebrew libssh headers.
 Export these:
 
     export CISCO_HOST=devnetsandboxiosxec8k.cisco.com
-    export CISCO_PASS=n_D9578Ks_oN
+    export CISCO_PASS=xxxxxxxxxxxx
     export CISCO_USER=alexharv074
 
 ---
