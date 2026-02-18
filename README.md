@@ -100,4 +100,6 @@ Re-run the playbook. It should now fail with drift detected.
 
 ---
 
-License: MIT
+## Licence
+
+MIT
